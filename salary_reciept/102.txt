@@ -1,0 +1,21 @@
+	TBJ's Company
+	Address: Varachha, Surat
+---------------------------------------------------
+ Employee ID		:  102
+ Salary Of		:  dec-2022
+ Generated On		:  08-12-2022
+---------------------------------------------------
+ Total Days		:  23
+ Total Present		:  -220
+ Total Absent		:  243
+ Medical		:  ₹ 3
+ PF		:  ₹ 34
+ TDS		:  ₹ 23
+ Other		:  ₹ 23
+ Total Deduction		:  ₹ 83.0
+ Gross Payment		:  ₹ 234
+ Net Salary		:  ₹ 151.0
+---------------------------------------------------
+This is computer generated slip, not 
+required any signature
+
