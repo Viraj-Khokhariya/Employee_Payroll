@@ -360,8 +360,13 @@ required any signature
                 if row == None:
                     messagebox.showerror("Error","This Employee is invalid,try with valid ID",parent=self.root)
                 else:
-                    cur.execute("UPDATE `emp_detail` SET `designation`=%s,`name`=%s,`age`=%s,`gender`=%s,`email`=%s,`doj`=%s,`dob`=%s,`experience`=%s,`id_proof`=%s,`contact`=%s,`month`=%s,`year`=%s,`salary`=%s,`total_day`=%s,`absent`=%s,`medical`=%s,`pf`=%s,`tds`=%s,`other`=%s,`total_deduction`=%s,`net_salary`=%s,`address`=%s,`salary_slip`=%s WHERE `e_id`=%s",
-                    (                        
+                    cur.execute("""
+                        UPDATE emp_detail 
+                        SET designation=%s, name=%s, age=%s, gender=%s, email=%s, doj=%s, dob=%s, experience=%s, proof=%s, contact=%s, 
+                            month=%s, year=%s, salary=%s, total_days=%s, absences=%s, medical=%s, pf=%s, tds=%s, other_deductions=%s, 
+                            total_deductions=%s, net_salary=%s, address=%s, receipt_file=%s 
+                        WHERE e_id=%s
+                    """, (
                         self.var_designation.get(),
                         self.var_name.get(),
                         self.var_age.get(),
@@ -370,7 +375,7 @@ required any signature
                         self.var_doj.get(),
                         self.var_dob.get(),
                         self.var_exp.get(),
-                        self.var_proof.get(),
+                        self.var_proof.get(),  # Corrected to proof
                         self.var_contact.get(),
                         self.var_month.get(),
                         self.var_year.get(),
@@ -384,10 +389,10 @@ required any signature
                         self.var_ded.get(),
                         self.nt_sal,
                         self.txt_address.get('1.0', END),
-                        self.var_emp_code.get()+".txt",
+                        self.var_emp_code.get() + ".txt",
                         self.var_emp_code.get(),
-                    )
-                    )
+                    ))
+
                     con.commit()
                     con.close()
                     file_=open('salary_reciept/'+str(self.var_emp_code.get())+".txt",'w',encoding="utf-8")
@@ -405,6 +410,36 @@ required any signature
             try:
                 con = pymysql.connect(host='localhost',user='root',password='',db='empc')
                 cur = con.cursor()
+                
+                # Ensure the table exists, create it if it doesn't
+                cur.execute("""
+                CREATE TABLE IF NOT EXISTS emp_detail (
+                    e_id VARCHAR(50) PRIMARY KEY,
+                    designation VARCHAR(50),
+                    name VARCHAR(100),
+                    age INT,
+                    gender VARCHAR(10),
+                    email VARCHAR(100),
+                    doj DATE,
+                    dob DATE,
+                    experience VARCHAR(50),
+                    proof VARCHAR(50),
+                    contact VARCHAR(20),
+                    month VARCHAR(20),
+                    year VARCHAR(20),
+                    salary DECIMAL(10,2),
+                    total_days INT,
+                    absences INT,
+                    medical DECIMAL(10,2),
+                    pf DECIMAL(10,2),
+                    tds DECIMAL(10,2),
+                    other_deductions DECIMAL(10,2),
+                    total_deductions DECIMAL(10,2),
+                    net_salary DECIMAL(10,2),
+                    address TEXT,
+                    receipt_file VARCHAR(100)
+                )
+                """)
 
                 cur.execute("select * from emp_detail where e_id=%s",(self.var_emp_code.get()))
                 row = cur.fetchone()
